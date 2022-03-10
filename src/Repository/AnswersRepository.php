@@ -46,17 +46,6 @@ class AnswersRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAnswerWhereQuestionisLike(string $userMessage): array
-    {
-        $qb = $this->createQueryBuilder('a')
-            ->where('a.message LIKE :message')
-            ->setParameter('message', '%' . $userMessage . '%');
-
-        $query = $qb->getQuery();
-
-        return $query->execute();
-    }
-
     // /**
     //  * @return Answers[] Returns an array of Answers objects
     //  */
