@@ -16,16 +16,51 @@ class GetAnswerController extends AbstractController
     {
         $userMessage = ($requestStack->getCurrentRequest()->query->get('message'));
 
-        $answer = $doctrine->getRepository(Answers::class)->getAnswerWhereQuestionisLike($userMessage);
+        $questionsAndAnswers = $doctrine->getRepository(Answers::class)->findAll();
 
-        if (empty($answer)) {
-            return $this->json([
-                'answer' => null
-            ]);
+
+        if (!$questionsAndAnswers) {
+            throw $this->createNotFoundException(
+                'No question/answers couple found in database, 
+                please create at least one.'
+            );
         }
 
-        return $this->json([
-            'answer' => $answer[0]->getAnswer(),
-        ]);
+        $highestScore = 0;
+
+        foreach ($questionsAndAnswers as $questionsAndAnswer) {
+            $currentScore =  similar_text(
+                $questionsAndAnswer->getMessage(),
+                $userMessage,
+                $similarityScoreInPercentage
+            );
+
+            if ($currentScore > $highestScore) {
+                $highestScore = $currentScore;
+
+                unset($scoreResults);
+
+                $scoreResults[] =
+                    [
+                        'question' => $questionsAndAnswer->getMessage(),
+                        'answer' => $questionsAndAnswer->getAnswer(),
+                        'score' => $similarityScoreInPercentage
+                    ];
+            }
+        }
+
+        $finalResult = array_reduce($scoreResults, 'array_merge', array());
+
+        if ($finalResult['score'] > 50) {
+            $answer = $finalResult['answer'];
+        } else {
+            $answer = "Désolé, je n'ai pas compris la question !";
+        }
+
+        return $this->json(
+            [
+                'answer' => $answer
+            ]
+        );
     }
 }
