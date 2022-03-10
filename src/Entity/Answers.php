@@ -27,6 +27,11 @@ class Answers
      */
     private $answer;
 
+    public function __toString(): string
+    {
+        return $this->message . ' ' . $this->message;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

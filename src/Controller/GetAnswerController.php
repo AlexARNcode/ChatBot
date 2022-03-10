@@ -15,6 +15,7 @@ class GetAnswerController extends AbstractController
     public function index(ManagerRegistry $doctrine, RequestStack $requestStack): Response
     {
         $userMessage = ($requestStack->getCurrentRequest()->query->get('message'));
+
         $answer = $doctrine->getRepository(Answers::class)->getAnswerWhereQuestionisLike($userMessage);
 
         if (empty($answer)) {
