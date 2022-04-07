@@ -12,12 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GetAnswerController extends AbstractController
 {
-    #[Route('/getAnswer', name: 'app_get_answer')]
+    #[Route('/getAnswer', name: 'app_get_answer', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine, RequestStack $requestStack, Score $score): Response
     {
-        $userQuestion = ($requestStack->getCurrentRequest()->query->get('message'));
+        $userQuestion = ($requestStack->getCurrentRequest()->query->get('userQuestion'));
 
         $questionsAndAnswers = $doctrine->getRepository(Answers::class)->findAll();
+
+        if (!$userQuestion) {
+            throw $this->createNotFoundException(
+                'User question must not be empty.'
+            );
+        }
 
         if (!$questionsAndAnswers) {
             throw $this->createNotFoundException(

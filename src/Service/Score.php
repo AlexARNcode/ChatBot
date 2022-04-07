@@ -4,14 +4,14 @@ namespace App\Service;
 
 class Score
 {
-    public function getHighestScore($questionsAndAnswers, $userMessage)
+    public function getHighestScore($questionsAndAnswers, $userQuestion)
     {
         $highestScore = 0;
 
         foreach ($questionsAndAnswers as $questionsAndAnswer) {
             $currentScore =  similar_text(
                 $questionsAndAnswer->getMessage(),
-                $userMessage,
+                $userQuestion,
                 $similarityScoreInPercentage
             );
 
