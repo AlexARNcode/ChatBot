@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Answers;
-use App\Service\Score;
+use App\Service\Answer;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GetAnswerController extends AbstractController
 {
     #[Route('/getAnswer', name: 'app_get_answer', methods: ['GET'])]
-    public function index(ManagerRegistry $doctrine, RequestStack $requestStack, Score $score): Response
+    public function index(ManagerRegistry $doctrine, RequestStack $requestStack, Answer $answerService): Response
     {
         $userQuestion = ($requestStack->getCurrentRequest()->query->get('userQuestion'));
 
@@ -32,13 +32,7 @@ class GetAnswerController extends AbstractController
             );
         }
 
-        $finalResult = $score->getHighestScore($questionsAndAnswers, $userQuestion);
-
-        if ($finalResult['score'] > 50) {
-            $answer = $finalResult['answer'];
-        } else {
-            $answer = "Désolé, je n'ai pas compris la question !";
-        }
+        $answer = $answerService->getAnswer($questionsAndAnswers, $userQuestion);
 
         return $this->json(
             [

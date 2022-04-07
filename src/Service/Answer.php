@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
-class Score
+class Answer
 {
-    public function getHighestScore($questionsAndAnswers, $userQuestion): array
+    public function getAnswer($questionsAndAnswers, $userQuestion)
     {
+        $highestScore = 0;
+
         foreach ($questionsAndAnswers as $questionsAndAnswer) {
             $currentScore =  similar_text(
                 $questionsAndAnswer->getMessage(),
@@ -13,19 +15,29 @@ class Score
                 $similarityScoreInPercentage
             );
 
+            if ($currentScore > $highestScore) {
+                $highestScore = $currentScore;
+
                 unset($scoreResults);
 
-                $scoreResults[] =
+                $scoreResults =
                     [
                         'question' => $questionsAndAnswer->getMessage(),
                         'answer' => $questionsAndAnswer->getAnswer(),
                         'score' => $similarityScoreInPercentage
                     ];
+
+
+                if ($scoreResults['score'] > 50) {
+                    $answer = $scoreResults['answer'];
+                } else {
+                    $answer = "Désolé, je n'ai pas compris la question !";
+                }
+            } 
+
             
         }
 
-        return array_reduce(
-            $scoreResults, 'array_merge', array()
-        );
+        return $answer;
     }
 }
