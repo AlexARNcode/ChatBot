@@ -16,7 +16,6 @@ class GetAnswerController extends AbstractController
     public function index(ManagerRegistry $doctrine, RequestStack $requestStack, Answer $answerService): Response
     {
         $userQuestion = ($requestStack->getCurrentRequest()->query->get('userQuestion'));
-
         $questionsAndAnswers = $doctrine->getRepository(Answers::class)->findAll();
 
         if (!$userQuestion) {
