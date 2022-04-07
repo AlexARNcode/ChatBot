@@ -40,13 +40,11 @@ class Answer
                     ];
 
                 if ($scoreResults['score'] > 50) {
-                    $answer = $scoreResults['answer'];
-                } else {
-                    $answer = self::DEFAULT_ANSWER;
+                    return $scoreResults['answer'];
                 }
             } 
         }
 
-        return $answer;
+        return self::DEFAULT_ANSWER;
     }
 }
