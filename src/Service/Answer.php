@@ -3,7 +3,7 @@
 namespace App\Service;
 
 class Answer
-{    
+{
     /**
      * Returns an answer corresponding to a question sent by the user.
      * It will search for the more similar question in the database, and will find its corresponding answer.
@@ -42,7 +42,7 @@ class Answer
                 if ($scoreResults['score'] > 50) {
                     return $scoreResults['answer'];
                 }
-            } 
+            }
         }
 
         return self::DEFAULT_ANSWER;
