@@ -14,7 +14,7 @@ class QuestionsAndAnswersFixtures extends Fixture
         $answerEntity->setMessage('En quelle année est né Léonard Da Vinci ?');
         $answerEntity->setAnswer('Léonard Da Vinci est né le 14 avril 1452');
         $manager->persist($answerEntity);
-        
+
         $answerEntity = new Answers();
         $answerEntity->setMessage('Qui a inventé la Montgolfière ?');
         $answerEntity->setAnswer('Joseph-Michel et Jacques-Étienne Montgolfier ont inventé la Montgolfière.');
