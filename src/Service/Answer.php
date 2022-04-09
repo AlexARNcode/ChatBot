@@ -16,7 +16,8 @@ class Answer
 
     protected const DEFAULT_ANSWER = "Désolé, je n'ai pas compris la question !";
 
-    public function getAnswer($questionsAndAnswers, $userQuestion) {
+    public function getAnswer($questionsAndAnswers, $userQuestion)
+    {
         $highestScore = 0;
 
         foreach ($questionsAndAnswers as $questionsAndAnswer) {
