@@ -1,20 +1,67 @@
-name: "CI"
-on: [ push, pull_request ]
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
 jobs:
-  phpcs:
+  setup:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: [ '8.1' ]
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # important!
 
-      - name: Install PHP_CodeSniffer with cURL
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install
+
+  coding-standard:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: [ '8.1' ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: composer install
+
+      - name: PHPCS
         run: |
-          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-          php phpcs.phar --version
+          cp ./phpcs.xml.dist ./phpcs.xml
+          ./vendor/bin/phpcs --config-set php_version 801010 --exclude=Generic.Files.LineLength
 
-      - uses: tinovyatkin/action-php-codesniffer@v1
-        with:
-          files: "**.php"
-          phpcs_path: php phpcs.phar
-          standard: phpcs.xml
+  tests:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: [ '8.1' ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: composer install
