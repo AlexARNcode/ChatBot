@@ -53,9 +53,9 @@ jobs:
         run: |
           cp ./phpcs.xml.dist ./phpcs.xml
           ./vendor/bin/phpcs --config-set php_version 801010 --exclude=Generic.Files.LineLength
-
+      
       - name: PHPSTAN
-      run: |
+        run: |
           vendor/bin/phpstan analyse src
 
   tests:
