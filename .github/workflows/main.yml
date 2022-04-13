@@ -69,3 +69,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: composer install
+      - name: Configuration
+        run: cp phpunit.xml.dist phpunit.xml
+      - name: PHPUNIT
+        run: vendor/bin/phpunit
