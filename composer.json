@@ -1,6 +1,8 @@
 {
     "type": "project",
     "license": "proprietary",
+    "name":"alexarncode/chatbot",
+    "description":"A chatbot API",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
