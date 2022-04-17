@@ -43,7 +43,8 @@ async function getAnswer() {
 
 return (
   <>
-     {answer && <p>{JSON.stringify(answer)}</p>}
+    <p>Votre question : {userQuestion}</p>
+    {answer && <p>Réponse : {JSON.stringify(answer).replace(/["']/g, "")}</p>}
   </>
 
 );
