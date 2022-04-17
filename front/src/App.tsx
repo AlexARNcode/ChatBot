@@ -43,7 +43,7 @@ async function getAnswer() {
 
 return (
   <>
-     {answer && <p>OK</p>}
+     {answer && <p>{JSON.stringify(answer)}</p>}
   </>
 
 );
