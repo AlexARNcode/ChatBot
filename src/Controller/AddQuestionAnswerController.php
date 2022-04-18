@@ -25,7 +25,7 @@ class AddQuestionAnswerController extends AbstractController
         /** @todo: check that this couple doesn't already exists in DB */
         $entityManager->persist($questionAndAnswer);
         $entityManager->flush();
-        
+
         return new Response('Question and answers created.', 201);
     }
 }

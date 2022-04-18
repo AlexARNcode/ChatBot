@@ -34,7 +34,7 @@ class GetAnswerController extends AbstractController
         $answer = $answerService->getAnswer($questionsAndAnswers, $userQuestion);
 
         return $this->json(
-                $answer
+            $answer
         );
     }
 }
