@@ -1,6 +1,8 @@
 import './App.css';
 import axios from "axios";
 import { useState } from "react";
+import UserOutput from './Components/UserOutput';
+import UserInput from './Components/UserInput';
 
 function App() {
 
@@ -38,26 +40,9 @@ async function getAnswer(userQuestion: string) {
 
 return (
   <>
-    <div className="text-center mt-3">
-        {userQuestion && <p>{ userQuestion }</p>}
-        {answer && <p>Bot : {JSON.stringify(answer).replace(/["']/g, "")}</p>}
-      </div>
-    
-      <div className="d-flex justify-content-center">
-        <input 
-        type="text"
-        className="form-control w-25"
-        onKeyPress={
-          (e) => { 
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              setUserQuestion((e.target as HTMLInputElement).value);
-              getAnswer((e.target as HTMLInputElement).value); 
-            } 
-          } 
-        }
-        />
-      </div>
+  <UserOutput userQuestion={ userQuestion } answer={ answer } />
+  
+  <UserInput setUserQuestion={ setUserQuestion } getAnswer={ getAnswer } />
   </>
 );
 }
