@@ -19,12 +19,14 @@ Ask him any question, it will search for an answer in its database and answer yo
 
 ## How to set it up
 
-1. Clone this repository.
-2. Go to the 'front' folder.
-3. `npm install` to install frontend libraries
-4. Launch the frontend web server (`npm start`).
-5. Go to the 'src' folder.
-6. `composer install` to install backend libraries
-7. Launch the backend web server (`symfony server:start`).
-8. Go to http://localhost:3000/
-9. :sunglasses: Enjoy !
+1. Clone this repository : `git clone git@github.com:AlexARNcode/ChatBot.git`
+2. Go to the 'front' folder : `cd front`
+3. Install the frontend libraries : `npm install` 
+4. Launch the frontend web server : `npm start`
+5. Go back to the root folder : `cd ..`
+6. Install the backend libraries : `composer install` 
+7. Configure your `.env.local file` to connect the project to your database
+8. Play the SQL migration : `php bin/console doctrine:migrations:migrate`
+9. Launch the backend web server : `symfony server:start`.
+10. Go to http://localhost:3000/
+11. :sunglasses: Enjoy !
