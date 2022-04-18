@@ -1,21 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import { useState } from "react";
-import { getValue } from '@testing-library/user-event/dist/utils';
 
 function App() {
 
 const [answer, setAnswer] = useState();
+const [userQuestion, setUserQuestion] = useState<string>();
 
-const userQuestion = "Qui a inventé la Mongolfière ?";
-
-React.useEffect(() => {
-  getAnswer();
-}, []);
-
-async function getAnswer() {
+async function getAnswer(userQuestion: string) {
   try {
     const { data, status } = await axios.get(
       `http://127.0.0.1:8000/getAnswer?userQuestion=${userQuestion}`,
@@ -43,10 +35,21 @@ async function getAnswer() {
 
 return (
   <>
-    <p>Votre question : {userQuestion}</p>
+    {userQuestion && <p>{ userQuestion }</p>}
     {answer && <p>Réponse : {JSON.stringify(answer).replace(/["']/g, "")}</p>}
-  </>
 
+    <input type="text"
+    onKeyPress={
+      (e) => { 
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          setUserQuestion((e.target as HTMLInputElement).value);
+          getAnswer((e.target as HTMLInputElement).value); 
+        } 
+      } 
+    }
+    />
+  </>
 );
 }
 
