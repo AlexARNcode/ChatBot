@@ -13,7 +13,7 @@
 
 ## About The Project
 
-A simple chatbot on which you can add/delete your questions and answers through and administration panel.
+A simple chatbot on which you can add/delete your questions and answers through an administration panel.
 
 Ask him any question, it will search for an answer in its database and answer you!
 
