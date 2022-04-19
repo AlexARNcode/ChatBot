@@ -7,7 +7,8 @@ class Answer
     /**
      * Returns an answer corresponding to a question sent by the user.
      * It will search for the more similar question in the database, and will find its corresponding answer.
-     * If the user question is not similar enough to a question in the database (i.e less than 50%), it will generate a default answer.
+     * If the user question is not similar enough to a question in the database (i.e less than 50%),
+     * it will generate a default answer.
      *
      * @param  array $questionsAndAnswers
      * @param  string $userQuestion
@@ -16,7 +17,8 @@ class Answer
 
     protected const DEFAULT_ANSWER = "Désolé, je n'ai pas compris la question !";
 
-    public function getAnswer($questionsAndAnswers, $userQuestion) {
+    public function getAnswer($questionsAndAnswers, $userQuestion)
+    {
         $highestScore = 0;
 
         foreach ($questionsAndAnswers as $questionsAndAnswer) {
