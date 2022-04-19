@@ -10,9 +10,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Answers;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ListAllQuestionsAnswersController extends AbstractController
+class ListAllQuestionsAnswersCouplesController extends AbstractController
 {
-    #[Route('/questions-answers/list', name: 'list_questions_and_answers', methods: ['GET'])]
+    #[Route('/questions-answers-couples', name: 'list_questions_and_answers_couples', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine): JsonResponse
     {
         $allQuestionsAndAnswers = $doctrine->getRepository(Answers::class)->findAll();

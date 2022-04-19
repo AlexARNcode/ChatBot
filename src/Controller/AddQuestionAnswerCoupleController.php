@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Answers;
 
-class AddQuestionAnswerController extends AbstractController
+class AddQuestionAnswerCoupleController extends AbstractController
 {
-    #[Route('/questions-answers/add', name: 'add_question_and_answer', methods: ['POST'])]
+    #[Route('/question-answer-couple', name: 'add_question_and_answer_couple', methods: ['POST'])]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         $userData = json_decode($request->getContent(), false);

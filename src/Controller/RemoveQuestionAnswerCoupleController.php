@@ -8,14 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Answers;
 
-class RemoveQuestionAnswerController extends AbstractController
+class RemoveQuestionAnswerCoupleController extends AbstractController
 {
     private const NO_QUESTION_ANSWER_COUPLE_FOUND = 'No question/answer couple found for the id : ';
     private const QUESTION_ANSWER_COUPLE_DELETED = 'Successfully deleted question/answer couple with id : ';
 
     #[Route(
-        '/questions-answers/remove/{questionAndAnswerCoupleId}',
-        name: 'remove_questions_and_answers',
+        '/questions-answers-couples/{questionAndAnswerCoupleId}',
+        name: 'remove_question_and_answer_couple',
         requirements: ['questionAndAnswerCoupleId' => '\d+'],
         methods: ['DELETE']
     )]

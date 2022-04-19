@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GetAnswerController extends AbstractController
 {
-    #[Route('/getAnswer', name: 'app_get_answer', methods: ['GET'])]
+    #[Route('/answer', name: 'app_get_answer', methods: ['GET'])]
     public function index(ManagerRegistry $doctrine, RequestStack $requestStack, Answer $answerService): Response
     {
         $userQuestion = ($requestStack->getCurrentRequest()->query->get('userQuestion'));
