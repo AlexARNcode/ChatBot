@@ -11,16 +11,19 @@ use App\Entity\Answers;
 
 class AddQuestionAnswerController extends AbstractController
 {
-    #[Route('/questionsAndAnswers/add', name: 'add_question_and_answer', methods: ['POST'])]
+    #[Route('/questions-answers/add', name: 'add_question_and_answer', methods: ['POST'])]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         /** @todo: check/sanitize the user input data */
         $userData = json_decode($request->getContent(), false);
 
+        $userQuestionToAdd = filter_var($userData->question, FILTER_SANITIZE_STRING);
+        $userAnswerToAdd = filter_var($userData->answer, FILTER_SANITIZE_STRING);
+
         $entityManager = $doctrine->getManager();
         $questionAndAnswer = new Answers();
-        $questionAndAnswer->setMessage($userData->question);
-        $questionAndAnswer->setAnswer($userData->answer);
+        $questionAndAnswer->setMessage($userQuestionToAdd);
+        $questionAndAnswer->setAnswer($userAnswerToAdd);
 
         /** @todo: check that this couple doesn't already exists in DB */
         $entityManager->persist($questionAndAnswer);
