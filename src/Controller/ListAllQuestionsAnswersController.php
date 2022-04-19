@@ -17,8 +17,9 @@ class ListAllQuestionsAnswersController extends AbstractController
     {
         $allQuestionsAndAnswers = $doctrine->getRepository(Answers::class)->findAll();
 
-        foreach ($allQuestionsAndAnswers as $questionAndAnswerValues) {
-            $response[] = [$questionAndAnswerValues->getMessage() => $questionAndAnswerValues->getAnswer()];
+        foreach ($allQuestionsAndAnswers as $questionAndAnswerKey => $questionAndAnswerValues) {
+            // dump($questionAndAnswerValues->getId());
+            $response[$questionAndAnswerValues->getId()] = [$questionAndAnswerValues->getMessage() => $questionAndAnswerValues->getAnswer()];
         }
 
         return new JsonResponse($response);
