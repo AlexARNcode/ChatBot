@@ -15,7 +15,7 @@ async function getAnswer(userQuestion: string) {
   setAnswer("");
   try {
     const { data, status } = await axios.get(
-      `http://127.0.0.1:8000/getAnswer?userQuestion=${userQuestion}`,
+      `http://127.0.0.1:8000/answer?userQuestion=${userQuestion}`,
       {
         headers: {
           Accept: 'application/json',
