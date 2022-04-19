@@ -14,7 +14,6 @@ class AddQuestionAnswerController extends AbstractController
     #[Route('/questions-answers/add', name: 'add_question_and_answer', methods: ['POST'])]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
-        /** @todo: check/sanitize the user input data */
         $userData = json_decode($request->getContent(), false);
 
         $userQuestionToAdd = filter_var($userData->question, FILTER_SANITIZE_STRING);
@@ -25,7 +24,7 @@ class AddQuestionAnswerController extends AbstractController
         $questionAndAnswer->setMessage($userQuestionToAdd);
         $questionAndAnswer->setAnswer($userAnswerToAdd);
 
-        /** @todo: check that this couple doesn't already exists in DB */
+        /** @todo: Manage errors (exception) */
         $entityManager->persist($questionAndAnswer);
         $entityManager->flush();
 
