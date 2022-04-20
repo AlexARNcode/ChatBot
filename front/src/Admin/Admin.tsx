@@ -5,10 +5,31 @@ import { useState } from "react";
 export default function Admin() {
 
 const [allQuestionsAndAnswers, setAllQuestionsAndAnswers] = useState<any>();
+const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
     getAllQuestionsAnswersCouples();
 }, []);
+
+function deleteQuestionAnswerCouple(e: any) {
+  const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
+  console.log(questionAnswerCoupleId);
+  console.log(allQuestionsAndAnswers);
+
+  axios.delete('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId, 
+  {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  } 
+  )
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
 
 async function getAllQuestionsAnswersCouples() {
     try {
@@ -23,6 +44,7 @@ async function getAllQuestionsAnswersCouples() {
     
         if (status === 200) {
             setAllQuestionsAndAnswers(data);
+            setIsLoading(false);
         }
     
       } catch (error) {
@@ -39,21 +61,26 @@ async function getAllQuestionsAnswersCouples() {
     return ( 
     <div className="container border mt-4 mb-4">
       <h1>Liste des questions/réponses</h1>
-          {
-            allQuestionsAndAnswers && 
-            allQuestionsAndAnswers.map(
-              (questionAndAnswer: { id: number, message: string, answer: string }) => 
-              <>
-                <div className="mt-4 mb-4 border p-3" key={ questionAndAnswer.id }>
-                  <label htmlFor="userQuestion" className="form-label">Question</label>
-                  <input className="form-control" type="text" id="userQuestion" placeholder={questionAndAnswer.message} disabled/>
-                  <label htmlFor="userAnswer" className="form-label">Réponse</label>
-                  <input className="form-control mb-3" type="text" placeholder={questionAndAnswer.answer} disabled/>
-                  <button type="button" className="btn btn-primary mr-2">Modifier</button>
-                  <button type="button" className="btn btn-danger">Supprimer</button>
-                </div>
-              </>
-            )}
+        { isLoading && <p>Chargement...</p> }
+        {allQuestionsAndAnswers && 
+          allQuestionsAndAnswers.map(
+            (questionAndAnswer: { id: number, message: string, answer: string }) => 
+            <>
+              <div className="mt-4 mb-4 border p-3">
+                <label htmlFor="userQuestion" className="form-label">Question</label>
+                <input className="form-control" type="text" id="userQuestion" placeholder={questionAndAnswer.message} disabled/>
+                <label htmlFor="userAnswer" className="form-label">Réponse</label>
+                <input className="form-control mb-3" type="text" placeholder={questionAndAnswer.answer} disabled/>
+                <button type="button" className="btn btn-primary mr-2">Modifier</button>
+                <button 
+                  type="button" 
+                  className="btn btn-danger" 
+                  onClick={ deleteQuestionAnswerCouple } 
+                  data-key={ questionAndAnswer.id }
+                  >Supprimer</button>
+              </div>
+            </>
+          )}
     </div>
     );
 
