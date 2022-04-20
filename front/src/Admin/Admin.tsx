@@ -12,19 +12,14 @@ useEffect(() => {
 }, []);
 
 function deleteQuestionAnswerCouple(e: any) {
+  e.preventDefault();
   const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
-  console.log(questionAnswerCoupleId);
-  console.log(allQuestionsAndAnswers);
-
-  axios.delete('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId, 
-  {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  } 
+  console.log("Deleting " + questionAnswerCoupleId);
+  axios.delete('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
   )
   .then(function (response) {
-    console.log(response);
+    console.log('remove from UI');
+    console.log(allQuestionsAndAnswers);
   })
   .catch(function (error) {
     console.log(error);
