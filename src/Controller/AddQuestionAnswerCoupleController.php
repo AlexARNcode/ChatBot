@@ -11,7 +11,7 @@ use App\Entity\Answers;
 
 class AddQuestionAnswerCoupleController extends AbstractController
 {
-    #[Route('/question-answer-couple', name: 'add_question_and_answer_couple', methods: ['POST'])]
+    #[Route('/questions-answers-couples', name: 'add_question_and_answer_couple', methods: ['POST'])]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         $userData = json_decode($request->getContent(), false);
