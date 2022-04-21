@@ -17,12 +17,12 @@ class RemoveQuestionAnswerCoupleController extends AbstractController
         '/questions-answers-couples/{questionAndAnswerCoupleId}',
         name: 'remove_question_and_answer_couple',
         requirements: ['questionAndAnswerCoupleId' => '\d+'],
-        methods: ['DELETE']
+        methods: ['DELETE', 'OPTIONS']
     )]
     public function index(ManagerRegistry $doctrine, $questionAndAnswerCoupleId): Response
     {
         $questionAndAnswerCouple = $doctrine->getRepository(Answers::class)->find($questionAndAnswerCoupleId);
-
+        
         if (!$questionAndAnswerCouple) {
             return new Response(
                 self::NO_QUESTION_ANSWER_COUPLE_FOUND . $questionAndAnswerCoupleId,
