@@ -17,7 +17,7 @@ class RemoveQuestionAnswerCoupleController extends AbstractController
         '/questions-answers-couples/{questionAndAnswerCoupleId}',
         name: 'remove_question_and_answer_couple',
         requirements: ['questionAndAnswerCoupleId' => '\d+'],
-        methods: ['DELETE', 'OPTIONS']
+        methods: ['DELETE']
     )]
     public function index(ManagerRegistry $doctrine, $questionAndAnswerCoupleId): Response
     {
