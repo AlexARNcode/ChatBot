@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Answers;
 
-
 class ListAllQuestionsAnswersCouplesController extends AbstractController
 {
     #[Route(
-        '/questions-answers-couples', 
-        name: 'list_questions_and_answers_couples', 
-        methods: ['GET'])
+        '/questions-answers-couples',
+        name: 'list_questions_and_answers_couples',
+        methods: ['GET']
+    )
     ]
     public function index(ManagerRegistry $doctrine)
     {
@@ -26,11 +26,10 @@ class ListAllQuestionsAnswersCouplesController extends AbstractController
             FROM App\Entity\Answers a'
         );
         $allQuestionsAndAnswers = $query->getArrayResult();
-    
+
         $response = new Response(json_encode($allQuestionsAndAnswers));
         $response->headers->set('Content-Type', 'application/json');
-    
+
         return $response;
-    
     }
 }

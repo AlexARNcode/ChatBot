@@ -10,57 +10,25 @@ class QuestionsAndAnswersFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('En quelle année est né Léonard Da Vinci ?');
-        $answerEntity->setAnswer('Léonard Da Vinci est né le 14 avril 1452');
-        $manager->persist($answerEntity);
+        $questionsAndAnswers = [
+            "En quelle année est né Léonard Da Vinci ?" => "Léonard Da Vinci est né le né le 14 avril 1452",
+            "Qui a inventé la Montgolfière ?" => "Joseph-Michel et Jacques-Étienne Montgolfier ont inventé la Montgolfière.",
+            "Combien font 2 + 2" => "2 + 2 = 4",
+            "Quel est le troisième mois de l'année ?" => "Le troisième mois de l'année est Mars",
+            "Où le soleil se lève-t-il ?" => "Le soleil se lève à l'Est",
+            "Quelle note correspond à 440 hertz ?" => "La note qui correspond à 440 hertz est un La.",
+            "Comment vaincre la peur de quelque chose ?" => "En s'y confrontant petit à petit, à dose réduite.",
+            "Quel est l'accordage standard d'une guitare ?" => "L'accordage standard d'une guitare est Mi / La / Ré / Sol / Si / Mi.",
+            "Qui est l'inventeur de Linux ?" => "L'inventeur de Linux est Linus Torvalds"
+        ];
 
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('Qui a inventé la Montgolfière ?');
-        $answerEntity->setAnswer('Joseph-Michel et Jacques-Étienne Montgolfier ont inventé la Montgolfière.');
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('Combien font 2 + 2');
-        $answerEntity->setAnswer('2 + 2 = 4');
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage("Quel est le troisième mois de l'année ?");
-        $answerEntity->setAnswer("Le troisième mois de l'année est Mars");
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('Où le soleil se lève-t-il ?');
-        $answerEntity->setAnswer("Le soleil se lève à l'Est");
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('Quelle note correspond à 440 hertz ?');
-        $answerEntity->setAnswer('La note qui correspond à 440 hertz est un La.');
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage('Comment vaincre la peur de quelque chose ?');
-        $answerEntity->setAnswer("En s'y confrontant petit à petit, à dose réduite.");
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage("Quel est l'accordage standard d'une guitare ?");
-        $answerEntity->setAnswer("L'accordage standard d'une guitare est Mi / La / Ré / Sol / Si / Mi.");
-        $manager->persist($answerEntity);
-        $manager->flush();
-
-        $answerEntity = new Answers();
-        $answerEntity->setMessage("Qui est l'inventeur de Linux ?");
-        $answerEntity->setAnswer("L'inventeur de Linux est Linus Torvalds");
-        $manager->persist($answerEntity);
+        foreach ($questionsAndAnswers as $question => $answer) {
+            dump($question, $answer);
+            $answerEntity = new Answers();
+            $answerEntity->setMessage($question);
+            $answerEntity->setAnswer($answer);
+            $manager->persist($answerEntity);
+        }
         $manager->flush();
     }
 }

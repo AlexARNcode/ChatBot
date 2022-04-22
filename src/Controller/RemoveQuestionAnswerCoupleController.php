@@ -22,7 +22,7 @@ class RemoveQuestionAnswerCoupleController extends AbstractController
     public function index(ManagerRegistry $doctrine, $questionAndAnswerCoupleId): Response
     {
         $questionAndAnswerCouple = $doctrine->getRepository(Answers::class)->find($questionAndAnswerCoupleId);
-        
+
         if (!$questionAndAnswerCouple) {
             return new Response(
                 self::NO_QUESTION_ANSWER_COUPLE_FOUND . $questionAndAnswerCoupleId,
