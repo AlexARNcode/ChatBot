@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class UpdateQuestionAnswerCoupleController extends AbstractController
 {
     #[Route(
-        '/questions-answers-couples/{questionAndAnswerCoupleId}', 
-        name: 'update_questions_and_answers_couples', 
+        '/questions-answers-couples/{questionAndAnswerCoupleId}',
+        name: 'update_questions_and_answers_couples',
         methods: ['PUT'],
         requirements: ['questionAndAnswerCoupleId' => '\d+']
     )]
@@ -26,7 +26,7 @@ class UpdateQuestionAnswerCoupleController extends AbstractController
 
         if (!$questionAndAnswerCouple) {
             throw $this->createNotFoundException(
-                'No question/answer couple found for id '.$questionAndAnswerCoupleId
+                'No question/answer couple found for id ' . $questionAndAnswerCoupleId
             );
         }
 
@@ -39,7 +39,7 @@ class UpdateQuestionAnswerCoupleController extends AbstractController
         $entityManager->flush();
 
         return new Response(
-            "Question/Answer couple with id $questionAndAnswerCoupleId successfully updated", 
+            "Question/Answer couple with id $questionAndAnswerCoupleId successfully updated",
             200
         );
     }
