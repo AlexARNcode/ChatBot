@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Admin() {
 
@@ -36,7 +37,7 @@ function updateQuestionAnswerCouple(e: any) {
     parentNode.querySelector("#userAnswer").disabled = false : parentNode.querySelector("#userAnswer").disabled = true;
 
   // Change the modify button text between "Modifier" and "Vérouiller"
-  e.target.textContent == "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
+  e.target.textContent === "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
 }
 
 async function getAllQuestionsAnswersCouples() {  
@@ -70,10 +71,11 @@ async function getAllQuestionsAnswersCouples() {
     <div className="container border mt-4 mb-4">
       <h1>Liste des questions/réponses</h1>
         { isLoading && <p>Chargement...</p> }
+
         {allQuestionsAndAnswers && 
           allQuestionsAndAnswers.map(
             (questionAndAnswer: { id: number, message: string, answer: string }) => 
-            <>
+            <div  key={uuidv4()}>
               <div className="mt-4 mb-4 border p-3">
                 <label htmlFor="userQuestion" className="form-label">Question</label>
                 <input 
@@ -98,9 +100,11 @@ async function getAllQuestionsAnswersCouples() {
                   className="btn btn-danger" 
                   onClick={ deleteQuestionAnswerCouple } 
                   data-key={ questionAndAnswer.id }
-                  >Supprimer</button>
+                  >
+                    Supprimer
+                </button>
               </div>
-            </>
+            </div>
           )}
     </div>
     );
