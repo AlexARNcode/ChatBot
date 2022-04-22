@@ -29,15 +29,15 @@ function deleteQuestionAnswerCouple(e: any) {
 function updateQuestionAnswerCouple(e: any) {
   // Enabled or disabled both text input "question" and "answer"
   const parentNode = e.target.parentNode;
-
-  parentNode.querySelector("#userQuestion").disabled ? 
-    parentNode.querySelector("#userQuestion").disabled = false : parentNode.querySelector("#userQuestion").disabled = true;
-
-  parentNode.querySelector("#userAnswer").disabled ? 
-    parentNode.querySelector("#userAnswer").disabled = false : parentNode.querySelector("#userAnswer").disabled = true;
+  parentNode.querySelector("#userQuestion").disabled = !(parentNode.querySelector("#userQuestion").disabled);
+  parentNode.querySelector("#userAnswer").disabled = !(parentNode.querySelector("#userAnswer").disabled);
 
   // Change the modify button text between "Modifier" and "Vérouiller"
   e.target.textContent === "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
+
+  // Display a "save" button
+  parentNode.querySelector("#saveButton").hidden = !(parentNode.querySelector("#saveButton").hidden);
+ 
 }
 
 async function getAllQuestionsAnswersCouples() {  
@@ -95,14 +95,17 @@ async function getAllQuestionsAnswersCouples() {
                 />
 
                 <button type="button" className="btn btn-primary mr-2" onClick = { updateQuestionAnswerCouple }>Modifier</button>
+
                 <button 
                   type="button" 
-                  className="btn btn-danger" 
+                  className="btn btn-danger mr-2" 
                   onClick={ deleteQuestionAnswerCouple } 
                   data-key={ questionAndAnswer.id }
                   >
                     Supprimer
                 </button>
+
+                <button type="button" className="btn btn-success" id="saveButton" hidden>Enregistrer</button>
               </div>
             </div>
           )}
