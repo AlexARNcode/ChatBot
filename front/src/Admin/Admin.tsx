@@ -12,6 +12,48 @@ useEffect(() => {
     getAllQuestionsAnswersCouples();
 }, []);
 
+/** UI changes */
+function updateUiQuestionAnswerCouple(e: any) {
+  // Enabled or disabled both text input "question" and "answer"
+  const parentNode = e.target.parentNode;
+  parentNode.querySelector("#userQuestion").disabled = !(parentNode.querySelector("#userQuestion").disabled);
+  parentNode.querySelector("#userAnswer").disabled = !(parentNode.querySelector("#userAnswer").disabled);
+
+  // Change the modify button text between "Modifier" and "Vérouiller"
+  e.target.textContent === "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
+
+  // Display a "save" button
+  parentNode.querySelector("#saveButton").hidden = !(parentNode.querySelector("#saveButton").hidden);
+}
+
+/** API CALLS */
+async function getAllQuestionsAnswersCouples() {  
+  try {
+      const { data, status } = await axios.get(
+        'http://127.0.0.1:8000/questions-answers-couples',
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        },
+      );
+  
+      if (status === 200) {
+          setAllQuestionsAndAnswers(data);
+          setIsLoading(false);
+      }
+  
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message: ', error.message);
+        return error.message;
+      } else {
+        console.log('unexpected error: ', error);
+        return 'An unexpected error occurred';
+      }
+    }
+  }
+
 function deleteQuestionAnswerCouple(e: any) {
   const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
   axios.delete('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
@@ -26,90 +68,71 @@ function deleteQuestionAnswerCouple(e: any) {
   });
 }
 
-function updateQuestionAnswerCouple(e: any) {
-  // Enabled or disabled both text input "question" and "answer"
-  const parentNode = e.target.parentNode;
-  parentNode.querySelector("#userQuestion").disabled = !(parentNode.querySelector("#userQuestion").disabled);
-  parentNode.querySelector("#userAnswer").disabled = !(parentNode.querySelector("#userAnswer").disabled);
-
-  // Change the modify button text between "Modifier" and "Vérouiller"
-  e.target.textContent === "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
-
-  // Display a "save" button
-  parentNode.querySelector("#saveButton").hidden = !(parentNode.querySelector("#saveButton").hidden);
- 
+function updateApiQuestionAndAnswerCouple(e: any) {
+  const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
+  axios.put('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
+  )
+  .then(function (response) {
+    console.log("PUT OK")
+  })
+  .catch(function (error) {
+    console.log("Error :");
+    console.log(error);
+  });
 }
 
-async function getAllQuestionsAnswersCouples() {  
-    try {
-        const { data, status } = await axios.get(
-          'http://127.0.0.1:8000/questions-answers-couples',
-          {
-            headers: {
-              Accept: 'application/json',
-            },
-          },
-        );
-    
-        if (status === 200) {
-            setAllQuestionsAndAnswers(data);
-            setIsLoading(false);
-        }
-    
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log('error message: ', error.message);
-          return error.message;
-        } else {
-          console.log('unexpected error: ', error);
-          return 'An unexpected error occurred';
-        }
-      }
-    }
+return ( 
+<div className="container border mt-4 mb-4">
+  <h1>Liste des questions/réponses</h1>
+    { isLoading && <p>Chargement...</p> }
 
-    return ( 
-    <div className="container border mt-4 mb-4">
-      <h1>Liste des questions/réponses</h1>
-        { isLoading && <p>Chargement...</p> }
+    {allQuestionsAndAnswers && 
+      allQuestionsAndAnswers.map(
+        (questionAndAnswer: { id: number, message: string, answer: string }) => 
+        <div  key={uuidv4()}>
+          <div className="mt-4 mb-4 border p-3">
+            <label htmlFor="userQuestion" className="form-label">Question</label>
+            <input 
+              className="form-control" 
+              type="text" 
+              id="userQuestion" 
+              value={questionAndAnswer.message} 
+              disabled
+            />
 
-        {allQuestionsAndAnswers && 
-          allQuestionsAndAnswers.map(
-            (questionAndAnswer: { id: number, message: string, answer: string }) => 
-            <div  key={uuidv4()}>
-              <div className="mt-4 mb-4 border p-3">
-                <label htmlFor="userQuestion" className="form-label">Question</label>
-                <input 
-                  className="form-control" 
-                  type="text" id="userQuestion" 
-                  placeholder={questionAndAnswer.message} 
-                  disabled
-                />
+            <label htmlFor="userAnswer" className="form-label">Réponse</label>
+            <input 
+              className="form-control mb-3" 
+              type="text" 
+              id="userAnswer" 
+              value={questionAndAnswer.answer} 
+              disabled
+            />
 
-                <label htmlFor="userAnswer" className="form-label">Réponse</label>
-                <input 
-                  className="form-control mb-3" 
-                  type="text" 
-                  id="userAnswer" 
-                  placeholder={questionAndAnswer.answer} 
-                  disabled
-                />
+            <button type="button" className="btn btn-primary mr-2" onClick = { updateUiQuestionAnswerCouple }>Modifier</button>
 
-                <button type="button" className="btn btn-primary mr-2" onClick = { updateQuestionAnswerCouple }>Modifier</button>
+            <button 
+              type="button" 
+              className="btn btn-danger mr-2" 
+              onClick={ deleteQuestionAnswerCouple } 
+              data-key={ questionAndAnswer.id }
+              >
+                Supprimer
+            </button>
 
-                <button 
-                  type="button" 
-                  className="btn btn-danger mr-2" 
-                  onClick={ deleteQuestionAnswerCouple } 
-                  data-key={ questionAndAnswer.id }
-                  >
-                    Supprimer
-                </button>
-
-                <button type="button" className="btn btn-success" id="saveButton" hidden>Enregistrer</button>
-              </div>
-            </div>
-          )}
-    </div>
-    );
+            <button 
+              type="button" 
+              className="btn btn-success" 
+              id="saveButton" 
+              hidden 
+              onClick={ updateApiQuestionAndAnswerCouple }
+              data-key= { questionAndAnswer.id }
+              >Enregistrer
+            </button>
+          </div>
+        </div>
+      )}
+</div>
+);
 
 }
