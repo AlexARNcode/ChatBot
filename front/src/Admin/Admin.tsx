@@ -25,7 +25,21 @@ function deleteQuestionAnswerCouple(e: any) {
   });
 }
 
-async function getAllQuestionsAnswersCouples() {
+function updateQuestionAnswerCouple(e: any) {
+  // Enabled or disabled both text input "question" and "answer"
+  const parentNode = e.target.parentNode;
+
+  parentNode.querySelector("#userQuestion").disabled ? 
+    parentNode.querySelector("#userQuestion").disabled = false : parentNode.querySelector("#userQuestion").disabled = true;
+
+  parentNode.querySelector("#userAnswer").disabled ? 
+    parentNode.querySelector("#userAnswer").disabled = false : parentNode.querySelector("#userAnswer").disabled = true;
+
+  // Change the modify button text between "Modifier" and "Vérouiller"
+  e.target.textContent == "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
+}
+
+async function getAllQuestionsAnswersCouples() {  
     try {
         const { data, status } = await axios.get(
           'http://127.0.0.1:8000/questions-answers-couples',
@@ -62,10 +76,23 @@ async function getAllQuestionsAnswersCouples() {
             <>
               <div className="mt-4 mb-4 border p-3">
                 <label htmlFor="userQuestion" className="form-label">Question</label>
-                <input className="form-control" type="text" id="userQuestion" placeholder={questionAndAnswer.message} disabled/>
+                <input 
+                  className="form-control" 
+                  type="text" id="userQuestion" 
+                  placeholder={questionAndAnswer.message} 
+                  disabled
+                />
+
                 <label htmlFor="userAnswer" className="form-label">Réponse</label>
-                <input className="form-control mb-3" type="text" placeholder={questionAndAnswer.answer} disabled/>
-                <button type="button" className="btn btn-primary mr-2">Modifier</button>
+                <input 
+                  className="form-control mb-3" 
+                  type="text" 
+                  id="userAnswer" 
+                  placeholder={questionAndAnswer.answer} 
+                  disabled
+                />
+
+                <button type="button" className="btn btn-primary mr-2" onClick = { updateQuestionAnswerCouple }>Modifier</button>
                 <button 
                   type="button" 
                   className="btn btn-danger" 
