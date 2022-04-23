@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import NewQuestion from "./Components/NewQuestion";
 import { deleteQuestionAnswerCouple } from "./services/deleteQuestionAnswerCouple";
 import { getAllQuestionsAnswersCouples } from "./services/getAllQuestionsAnswersCouples";
+import { clickOnModifyButton } from "./services/clickOnModifyButton";
 
 export default function Admin() {
 
@@ -17,24 +18,14 @@ useEffect(() => {
 }, []);
 
 /** UI changes */
-function updateUiQuestionAnswerCouple(e: any) {
-  // Enabled or disabled both text input "question" and "answer"
-  const parentNode = e.target.parentNode;
-  parentNode.querySelector("#userQuestion").disabled = !(parentNode.querySelector("#userQuestion").disabled);
-  parentNode.querySelector("#userAnswer").disabled = !(parentNode.querySelector("#userAnswer").disabled);
-
-  // Change the modify button text between "Modifier" and "Vérouiller"
-  e.target.textContent === "Modifier" ? e.target.textContent = "Vérouiller" : e.target.textContent = "Modifier";
-
-  // Display a "save" button
-  parentNode.querySelector("#saveButton").hidden = !(parentNode.querySelector("#saveButton").hidden);
-}
 
 function addUiQuestionAndAnswerCouple(e: any) {
   setNewQuestionIsActive(!newQuestionIsActive)
   e.target.textContent == "Ajouter une question" ? 
     e.target.textContent = "Annuler" : e.target.textContent = "Ajouter une question"
 }
+
+// API
 
 function updateApiQuestionAndAnswerCouple(e: any) {
   const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
@@ -83,7 +74,11 @@ return (
               disabled
             />
 
-            <button type="button" className="btn btn-primary mr-2" onClick = { updateUiQuestionAnswerCouple }>Modifier</button>
+            <button type="button" 
+              className="btn btn-primary mr-2" 
+              onClick = { e => clickOnModifyButton(e, setNewQuestionIsActive, newQuestionIsActive) }>
+                Modifier
+            </button>
 
             <button 
               type="button" 
