@@ -6,7 +6,7 @@ import UserInput from './Components/UserInput';
 
 function App() {
 
-const [answer, setAnswer] = useState(
+const [answer, setAnswer] = useState<string>(
   "Bonjour, je suis le Bot. Posez-moi des questions et j'essayerai d'y répondre !"
   );
 const [userQuestion, setUserQuestion] = useState<string>();

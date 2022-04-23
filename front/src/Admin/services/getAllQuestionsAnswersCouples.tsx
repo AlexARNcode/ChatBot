@@ -1,6 +1,9 @@
 import axios from "axios";
 
-export async function getAllQuestionsAnswersCouples(setAllQuestionsAndAnswers: (arg0: any) => void, setIsLoading: (arg0: boolean) => void) {
+export async function getAllQuestionsAnswersCouples(
+  setAllQuestionsAndAnswers: (arg0: any) => void, 
+  setIsLoading: (arg0: boolean) => void
+  ) {
     try {
         const { data, status } = await axios.get(
           'http://127.0.0.1:8000/questions-answers-couples',

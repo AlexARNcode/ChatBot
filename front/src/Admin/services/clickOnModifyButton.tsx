@@ -1,5 +1,9 @@
-export function clickOnModifyButton(e: any, setNewQuestionIsActive: any, newQuestionIsActive: any) {
-    // Enabled or disabled both text input "question" and "answer"
+export function clickOnModifyButton(
+  e: any, 
+  setNewQuestionIsActive: Function, 
+  newQuestionIsActive: boolean
+  ) {
+    // Enable or disable both text input "question" and "answer"
     const parentNode = e.target.parentNode;
     parentNode.querySelector("#userQuestion").disabled = !(parentNode.querySelector("#userQuestion").disabled);
     parentNode.querySelector("#userAnswer").disabled = !(parentNode.querySelector("#userAnswer").disabled);

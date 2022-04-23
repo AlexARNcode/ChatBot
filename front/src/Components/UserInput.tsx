@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
 
 interface Props {
-    setUserQuestion: Dispatch<SetStateAction<string | undefined>>;
-    getAnswer: (userQuestion: string) => Promise<string | undefined>;
+    setUserQuestion: Function;
+    getAnswer: Function;
 }
 
 export default function UserInput({ setUserQuestion, getAnswer } : Props) {

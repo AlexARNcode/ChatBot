@@ -10,9 +10,15 @@ import { updateApiQuestionAndAnswerCouple } from "./services/updateApiQuestionAn
 
 export default function Admin() {
 
-const [allQuestionsAndAnswers, setAllQuestionsAndAnswers] = useState<any>();
-const [isLoading, setIsLoading] = useState(true);
-const [newQuestionIsActive, setNewQuestionIsActive] = useState(false);
+interface allQuestionsAndAnswersTypes {
+  id: number, 
+  message: string, 
+  answer: string
+}
+
+const [allQuestionsAndAnswers, setAllQuestionsAndAnswers] = useState<Array<allQuestionsAndAnswersTypes>>();
+const [isLoading, setIsLoading] = useState<boolean>(true);
+const [newQuestionIsActive, setNewQuestionIsActive] = useState<boolean>(false);
 
 useEffect(() => {
     getAllQuestionsAnswersCouples(setAllQuestionsAndAnswers, setIsLoading);

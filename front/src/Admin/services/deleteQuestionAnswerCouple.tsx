@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export function deleteQuestionAnswerCouple(
-  e: any, allQuestionsAndAnswers: any[], setAllQuestionsAndAnswers: (arg0: any[]) => void
+  e: any, 
+  allQuestionsAndAnswers: any[], 
+  setAllQuestionsAndAnswers: (arg0: any[]) => void
   ) {
     const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
 

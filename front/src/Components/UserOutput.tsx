@@ -5,11 +5,11 @@ interface Props {
     answer: string | undefined;
 }
 
-export default function UserOutput({ userQuestion, answer  } : Props) {
+export default function UserOutput({ userQuestion, answer } : Props) {
     return (   
          <>
               <div className="text-center mt-3">
-        {userQuestion && <p>{ userQuestion }</p>}
+        {userQuestion && <p>Vous : { userQuestion }</p>}
         {answer && <p>Bot : {JSON.stringify(answer).replace(/["']/g, "")}</p>}
       </div>
          </>

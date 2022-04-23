@@ -1,5 +1,7 @@
 export function addUiQuestionAndAnswerCouple(
-    e:any, setNewQuestionIsActive: (arg0: boolean) => void, newQuestionIsActive: any
+    e:any, 
+    setNewQuestionIsActive: (arg0: boolean) => void, 
+    newQuestionIsActive: boolean
     ) {
     setNewQuestionIsActive(!newQuestionIsActive)
     e.target.textContent == "Ajouter une question" ? 
