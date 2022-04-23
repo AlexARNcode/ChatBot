@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NewQuestion from "./Components/NewQuestion";
+import { deleteQuestionAnswerCouple } from "./services/deleteQuestionAnswerCouple";
 
 export default function Admin() {
 
@@ -62,20 +63,6 @@ async function getAllQuestionsAnswersCouples() {
     }
   }
 
-function deleteQuestionAnswerCouple(e: any) {
-  const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
-  axios.delete('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
-  )
-  .then(function (response) {
-    // set state with new array where the id is different than the one being deleted
-    const newAllQuestionsAndAnswers = allQuestionsAndAnswers.filter((questionAndAnswer: any) => questionAndAnswer.id != questionAnswerCoupleId)
-    setAllQuestionsAndAnswers(newAllQuestionsAndAnswers);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
 function updateApiQuestionAndAnswerCouple(e: any) {
   const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
   axios.put('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
@@ -128,7 +115,7 @@ return (
             <button 
               type="button" 
               className="btn btn-danger mr-2" 
-              onClick={ deleteQuestionAnswerCouple } 
+              onClick={ e => deleteQuestionAnswerCouple(e, allQuestionsAndAnswers, setAllQuestionsAndAnswers) } 
               data-key={ questionAndAnswer.id }
               >
                 Supprimer
