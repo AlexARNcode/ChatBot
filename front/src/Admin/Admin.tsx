@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import NewQuestion from "./Components/NewQuestion";
 
 export default function Admin() {
 
 const [allQuestionsAndAnswers, setAllQuestionsAndAnswers] = useState<any>();
 const [isLoading, setIsLoading] = useState(true);
+const [newQuestionIsActive, setNewQuestionIsActive] = useState(false);
 
 useEffect(() => {
     getAllQuestionsAnswersCouples();
@@ -24,6 +26,12 @@ function updateUiQuestionAnswerCouple(e: any) {
 
   // Display a "save" button
   parentNode.querySelector("#saveButton").hidden = !(parentNode.querySelector("#saveButton").hidden);
+}
+
+function addUiQuestionAndAnswerCouple(e: any) {
+  setNewQuestionIsActive(!newQuestionIsActive)
+  e.target.textContent == "Ajouter une question" ? 
+    e.target.textContent = "Annuler" : e.target.textContent = "Ajouter une question"
 }
 
 /** API CALLS */
@@ -85,6 +93,12 @@ return (
 <div className="container border mt-4 mb-4">
   <h1>Liste des questions/réponses</h1>
     { isLoading && <p>Chargement...</p> }
+
+    <button type="button" className="btn btn-primary mt-2 mb-2" onClick={ addUiQuestionAndAnswerCouple }>
+      Ajouter une question
+    </button>
+
+    {newQuestionIsActive && <NewQuestion />}
 
     {allQuestionsAndAnswers && 
       allQuestionsAndAnswers.map(
