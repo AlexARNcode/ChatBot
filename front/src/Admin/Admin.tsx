@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NewQuestion from "./Components/NewQuestion";
@@ -7,6 +6,7 @@ import { deleteQuestionAnswerCouple } from "./services/deleteQuestionAnswerCoupl
 import { getAllQuestionsAnswersCouples } from "./services/getAllQuestionsAnswersCouples";
 import { clickOnModifyButton } from "./services/clickOnModifyButton";
 import { addUiQuestionAndAnswerCouple } from "./services/addUiQuestionAndAnswerCouple";
+import { updateApiQuestionAndAnswerCouple } from "./services/updateApiQuestionAndAnswerCouple";
 
 export default function Admin() {
 
@@ -17,21 +17,6 @@ const [newQuestionIsActive, setNewQuestionIsActive] = useState(false);
 useEffect(() => {
     getAllQuestionsAnswersCouples(setAllQuestionsAndAnswers, setIsLoading);
 }, []);
-
-// API
-
-function updateApiQuestionAndAnswerCouple(e: any) {
-  const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
-  axios.put('http://127.0.0.1:8000/questions-answers-couples/' + questionAnswerCoupleId
-  )
-  .then(function (response) {
-    console.log("PUT OK")
-  })
-  .catch(function (error) {
-    console.log("Error :");
-    console.log(error);
-  });
-}
 
 return ( 
 <div className="container border mt-4 mb-4">
@@ -88,7 +73,7 @@ return (
               className="btn btn-success" 
               id="saveButton" 
               hidden 
-              onClick={ updateApiQuestionAndAnswerCouple }
+              onClick={ e => updateApiQuestionAndAnswerCouple(e) }
               data-key= { questionAndAnswer.id } >Enregistrer
             </button>
           </div>
