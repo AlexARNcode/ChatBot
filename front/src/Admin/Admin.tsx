@@ -4,6 +4,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NewQuestion from "./Components/NewQuestion";
 import { deleteQuestionAnswerCouple } from "./services/deleteQuestionAnswerCouple";
+import { getAllQuestionsAnswersCouples } from "./services/getAllQuestionsAnswersCouples";
 
 export default function Admin() {
 
@@ -12,7 +13,7 @@ const [isLoading, setIsLoading] = useState(true);
 const [newQuestionIsActive, setNewQuestionIsActive] = useState(false);
 
 useEffect(() => {
-    getAllQuestionsAnswersCouples();
+    getAllQuestionsAnswersCouples(setAllQuestionsAndAnswers, setIsLoading);
 }, []);
 
 /** UI changes */
@@ -34,34 +35,6 @@ function addUiQuestionAndAnswerCouple(e: any) {
   e.target.textContent == "Ajouter une question" ? 
     e.target.textContent = "Annuler" : e.target.textContent = "Ajouter une question"
 }
-
-/** API CALLS */
-async function getAllQuestionsAnswersCouples() {  
-  try {
-      const { data, status } = await axios.get(
-        'http://127.0.0.1:8000/questions-answers-couples',
-        {
-          headers: {
-            Accept: 'application/json',
-          },
-        },
-      );
-  
-      if (status === 200) {
-          setAllQuestionsAndAnswers(data);
-          setIsLoading(false);
-      }
-  
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message: ', error.message);
-        return error.message;
-      } else {
-        console.log('unexpected error: ', error);
-        return 'An unexpected error occurred';
-      }
-    }
-  }
 
 function updateApiQuestionAndAnswerCouple(e: any) {
   const questionAnswerCoupleId = (e.target.getAttribute("data-key"));
