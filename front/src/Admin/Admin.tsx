@@ -6,6 +6,7 @@ import NewQuestion from "./Components/NewQuestion";
 import { deleteQuestionAnswerCouple } from "./services/deleteQuestionAnswerCouple";
 import { getAllQuestionsAnswersCouples } from "./services/getAllQuestionsAnswersCouples";
 import { clickOnModifyButton } from "./services/clickOnModifyButton";
+import { addUiQuestionAndAnswerCouple } from "./services/addUiQuestionAndAnswerCouple";
 
 export default function Admin() {
 
@@ -16,14 +17,6 @@ const [newQuestionIsActive, setNewQuestionIsActive] = useState(false);
 useEffect(() => {
     getAllQuestionsAnswersCouples(setAllQuestionsAndAnswers, setIsLoading);
 }, []);
-
-/** UI changes */
-
-function addUiQuestionAndAnswerCouple(e: any) {
-  setNewQuestionIsActive(!newQuestionIsActive)
-  e.target.textContent == "Ajouter une question" ? 
-    e.target.textContent = "Annuler" : e.target.textContent = "Ajouter une question"
-}
 
 // API
 
@@ -45,7 +38,10 @@ return (
   <h1>Liste des questions/réponses</h1>
     { isLoading && <p>Chargement...</p> }
 
-    <button type="button" className="btn btn-primary mt-2 mb-2" onClick={ addUiQuestionAndAnswerCouple }>
+    <button 
+      type="button" 
+      className="btn btn-primary mt-2 mb-2" 
+      onClick={ e => addUiQuestionAndAnswerCouple(e, setNewQuestionIsActive, newQuestionIsActive) }>
       Ajouter une question
     </button>
 
@@ -62,8 +58,7 @@ return (
               type="text" 
               id="userQuestion" 
               value={questionAndAnswer.message} 
-              disabled
-            />
+              disabled />
 
             <label htmlFor="userAnswer" className="form-label">Réponse</label>
             <input 
@@ -71,10 +66,10 @@ return (
               type="text" 
               id="userAnswer" 
               value={questionAndAnswer.answer} 
-              disabled
-            />
+              disabled />
 
-            <button type="button" 
+            <button 
+              type="button" 
               className="btn btn-primary mr-2" 
               onClick = { e => clickOnModifyButton(e, setNewQuestionIsActive, newQuestionIsActive) }>
                 Modifier
@@ -84,8 +79,7 @@ return (
               type="button" 
               className="btn btn-danger mr-2" 
               onClick={ e => deleteQuestionAnswerCouple(e, allQuestionsAndAnswers, setAllQuestionsAndAnswers) } 
-              data-key={ questionAndAnswer.id }
-              >
+              data-key={ questionAndAnswer.id }>
                 Supprimer
             </button>
 
@@ -95,8 +89,7 @@ return (
               id="saveButton" 
               hidden 
               onClick={ updateApiQuestionAndAnswerCouple }
-              data-key= { questionAndAnswer.id }
-              >Enregistrer
+              data-key= { questionAndAnswer.id } >Enregistrer
             </button>
           </div>
         </div>
